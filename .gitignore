@@ -1,0 +1,68 @@
+service_account.json
+token.json
+.env
+.venv/
+__pycache__/
+*.pyc
+.vscode/
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# Environment & secrets
+.env
+.env.*
+service_account.json
+token.json
+credentials.json
+.streamlit/secrets.toml
+
+# Caches & logs
+.cache/
+.huggingface/
+**/.mypy_cache/
+**/.pytest_cache/
+**/.ruff_cache/
+**/.ipynb_checkpoints/
+logs/
+*.log
+
+# Coverage/tests/build
+.coverage
+coverage.xml
+htmlcov/
+dist/
+build/
+site/
+junit*.xml
+
+# Streamlit
+.streamlit/**/credentials.toml
+
+# Data/artifacts (optional)
+data/
+downloads/
+tmp/
+temp/
+*.pdf
+
+# OS/IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node (if any)
+node_modules/
+
+# Docker/runtime
+*.pid
