@@ -57,7 +57,7 @@ HF_ENDPOINT_URL=https://api-inference.huggingface.co/models
 DRIVE_FOLDER_ID=your_google_drive_folder_id
 GOOGLE_SERVICE_ACCOUNT_PATH=service_account.json
 
-# Optional: OCR Configuration USE Whatever you USE i used PADDLEOCR
+# Optional: OCR Configuration 
 #eg.TESSERACT_CMD=C:\Program Files\Tesseract-OCR\tesseract.exe
 #eg.POPPLER_PATH=C:\Program Files\poppler\bin
 
