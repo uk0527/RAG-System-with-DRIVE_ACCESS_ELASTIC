@@ -57,13 +57,18 @@ HF_ENDPOINT_URL=https://api-inference.huggingface.co/models
 DRIVE_FOLDER_ID=your_google_drive_folder_id
 GOOGLE_SERVICE_ACCOUNT_PATH=service_account.json
 
-# Optional: OCR Configuration 
-#eg.TESSERACT_CMD=C:\Program Files\Tesseract-OCR\tesseract.exe
-#eg.POPPLER_PATH=C:\Program Files\poppler\bin
+# OCR and PDF Processing (modern pipeline)
+PADDLEOCR_LANG=en
+EASYOCR_LANG=en
+OCR_QUALITY_THRESHOLD=0.3
+PDF_DPI=300
+EXTRACT_IMAGES=true
+EXTRACT_TABLES=true
 
-# Optional: API Configuration
+# API Configuration
 API_HOST=127.0.0.1
 API_PORT=8000
+# Note: The Streamlit UI uses a hardcoded API URL (see app/ui/chat_app.py)
 RAG_API_URL=http://127.0.0.1:8000
 ```
 
@@ -133,6 +138,13 @@ curl -X POST "http://127.0.0.1:8000/ingest" \
 
 Or use the Swagger UI at http://127.0.0.1:8000/docs
 
+Alternatively, you can run the standalone CLI ingestion script (expects the index to already exist):
+
+```bash
+python run_ingestion.py
+```
+Note: The CLI script will not create the index if missing; the API endpoint does. If you need to create the index via CLI, start the API once and hit `/ingest` with a small batch to initialize mapping and pipeline.
+
 ### 3. Start the Web UI
 
 ```bash
@@ -140,6 +152,7 @@ streamlit run app/ui/chat_app.py
 ```
 
 - **Web Interface**: http://localhost:8501
+- By default, the UI calls the API at `http://127.0.0.1:8000`. To point it elsewhere, edit `API_URL` in `app/ui/chat_app.py`.
 
 ## API Endpoints
 
@@ -199,6 +212,11 @@ Content-Type: application/json
 GET /healthz
 ```
 
+### Debug Retrieval
+```http
+GET /debug/retrieve?q=your+query&mode=hybrid&top_k=5
+```
+
 ## Testing
 
 ```bash
@@ -248,6 +266,10 @@ pytest --cov=app --cov-report=html
 - Better recall and precision
 - Recommended for most use cases
 
+### BM25-Only Mode
+- Pure keyword retrieval using BM25 on `content`/`text` fields
+- Useful when vector or ELSER models are unavailable
+
 ## Safety and Guardrails
 
 The system includes multiple layers of safety:
@@ -260,8 +282,8 @@ The system includes multiple layers of safety:
 ## Performance
 
 - **Target Latency**: ≤3 seconds for small documents
-- **Context Limit**: 1600 tokens maximum
-- **Answer Limit**: 500 tokens maximum
+- **Context Limit**: 1600 tokens maximum (override via `MAX_CONTEXT_TOKENS`)
+- **Answer Limit**: 1200 tokens maximum by default (override via `MAX_ANSWER_TOKENS`)
 - **Batch Processing**: Configurable batch sizes for ingestion
 
 ## Troubleshooting
@@ -287,14 +309,20 @@ The system includes multiple layers of safety:
 ### Logs and Debugging
 
 ```bash
-# Enable verbose logging
-export VERBOSE=true
-
 # Check API health
 curl http://127.0.0.1:8000/healthz
 
 # Debug retrieval
 curl "http://127.0.0.1:8000/debug/retrieve?q=test&mode=hybrid&top_k=5"
+
+# Ingest with verbose logs (set in request body)
+curl -X POST "http://127.0.0.1:8000/ingest" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "folder_id": "your_drive_folder_id",
+    "verbose": true,
+    "max_files": 10
+  }'
 ```
 
 ## License
@@ -308,6 +336,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 3. Make your changes
 4. Add tests for new functionality
 5. Submit a pull request
+
+## Support
+
+For questions and support:
+- Create an issue on GitHub
+- Check the API documentation at `/docs`
+- Review the test files for usage examples
+
 
 
 See the Walkthrough video here :
