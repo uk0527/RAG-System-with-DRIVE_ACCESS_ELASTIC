@@ -309,9 +309,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 4. Add tests for new functionality
 5. Submit a pull request
 
-## Support
 
-For questions and support:
-- Create an issue on GitHub
-- Check the API documentation at `/docs`
-- Review the test files for usage examples
+See the Walkthrough video here :
+https://drive.google.com/drive/folders/1Zfo52qL5oGdzq6o01KgJISVHhI8w07FP?usp=sharing
