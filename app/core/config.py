@@ -29,14 +29,14 @@ DRIVE_FOLDER_ID: Optional[str] = os.getenv("DRIVE_FOLDER_ID")
 GOOGLE_SERVICE_ACCOUNT_PATH: str = os.getenv("GOOGLE_SERVICE_ACCOUNT_PATH", "service_account.json")
 
 # Chunking
-CHUNK_SIZE: int = int(os.getenv("CHUNK_SIZE", "300"))
-CHUNK_OVERLAP: int = int(os.getenv("CHUNK_OVERLAP", "50"))
+CHUNK_SIZE: int = int(os.getenv("CHUNK_SIZE", "1000"))
+CHUNK_OVERLAP: int = int(os.getenv("CHUNK_OVERLAP", "200"))
 MAX_CONTEXT_TOKENS: int = int(os.getenv("MAX_CONTEXT_TOKENS", "1600"))
 
 # Retrieval
 DEFAULT_TOP_K: int = int(os.getenv("DEFAULT_TOP_K", "5"))
 MIN_SCORE_THRESHOLD: float = float(os.getenv("MIN_SCORE_THRESHOLD", "0.2"))
-RRF_RANK_CONSTANT: int = int(os.getenv("RRF_RANK_CONSTANT", "60"))
+RRF_RANK_CONSTANT: int = int(os.getenv("RRF_RANK_CONSTANT", "10"))
 
 # Guardrails
 MIN_GROUNDING_OVERLAP: float = float(os.getenv("MIN_GROUNDING_OVERLAP", "0.10"))
